@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
+import BreezeVaildationErrors from '@/Components/VaildationErrors.vue'
 
 defineProps({
   errors: Object
@@ -18,6 +19,7 @@ const submitFunction = () => {
 </script>
 
 <template>
+  <BreezeVaildationErrors :errors="errors" />
   <form @submit.prevent="submitFunction">
     <input name="title" type="text" v-model="form.title"><br>
     <div v-if="errors.title">{{ errors.title }}</div>
