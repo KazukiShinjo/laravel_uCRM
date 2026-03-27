@@ -1,10 +1,10 @@
 <script setup>
 import { computed } from 'vue';
+import { usePage } from '@inertiajs/inertia-vue3';
 
-const props = defineProps({
-  errors: Object
-})
-const hasErrors = computed(() => Object.keys(props.errors.value).length > 0);
+const errors = computed(() => usePage().props.value.errors);
+
+const hasErrors = computed(() => Object.keys(errors.value).length > 0);
 </script>
 
 <template>
@@ -12,7 +12,7 @@ const hasErrors = computed(() => Object.keys(props.errors.value).length > 0);
         <div class="font-medium text-red-600">問題が発生しました。</div>
 
         <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-            <li v-for="(error, key) in props.errors" :key="key">{{ error }}</li>
+            <li v-for="(error, key) in errors" :key="key">{{ error }}</li>
         </ul>
     </div>
 </template>
