@@ -22,6 +22,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
-        "@inertiajs/progress": "^0.2.7"
+        "@inertiajs/progress": "^0.2.7",
+        "yubinbango-core2": "^0.6.3"
     }
 }
