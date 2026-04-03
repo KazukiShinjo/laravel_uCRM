@@ -51,7 +51,7 @@ const deleteItem = id => {
                               <div class="relative">
                                 <label for="price" class="leading-7 text-sm text-gray-600">商品価格</label>
                                 <div id="price" class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                  {{ item.price }}
+                                  {{ Number(item.price).toLocaleString() }}
                                 </div>
                               </div>
                             </div>

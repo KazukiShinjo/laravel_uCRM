@@ -45,7 +45,7 @@ defineProps({
                                     </Link>
                                   </td>
                                   <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.name }}</td>
-                                  <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.price }}</td>
+                                  <td class="border-b-2 border-gray-200 px-4 py-3">{{ Number(item.price).toLocaleString() }}</td>
                                   <td class="border-b-2 border-gray-200 px-4 py-3">
                                     <span v-if="item.is_selling === 1">販売中</span>
                                     <span v-if="item.is_selling === 0">停止中</span>

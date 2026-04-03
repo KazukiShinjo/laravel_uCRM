@@ -27,6 +27,7 @@ const searchCustomers = async () => {
   }
 }
 
+// defineEmitsは、子コンポーネントから親コンポーネントへ値を渡すための関数
 const emit = defineEmits(['update:customerId'])
 const setCustomer = e => {
   search.value = e.kana
