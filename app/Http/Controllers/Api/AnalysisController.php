@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use App\Service\AnalysisService;
+use App\Service\DecileService;
 
 class AnalysisController extends Controller
 {
@@ -15,16 +17,23 @@ class AnalysisController extends Controller
         $subQuery = Order::betweenDate($request->startDate, $request->endDate);
 
         if ($request->type === 'perDay') {
-            $subQuery->where('status', true)->groupBy('id')->selectRaw('SUM(subtotal) AS
-            totalPerPurchase, DATE_FORMAT(created_at, "%Y%m%d") AS date')->groupBy('date');
+            // ここでServiceのAnalysisServiceのperDayメソッドを呼び出し、返ってきたデータを$data、$labels、$totalsに格納する
+            list($data, $labels, $totals) = AnalysisService::perDay($subQuery);
+        }
 
-            $data = DB::table($subQuery)
-                ->groupBy('date')
-                ->selectRaw('date, sum(totalPerPurchase) as total')
-                ->get();
+        if ($request->type === 'perMonth') {
+            // ここでServiceのAnalysisServiceのperMonthメソッドを呼び出し、返ってきたデータを$data、$labels、$totalsに格納する
+            list($data, $labels, $totals) = AnalysisService::perMonth($subQuery);
+        }
 
-            $labels = $data->pluck('date');
-            $totals = $data->pluck('total');
+        if ($request->type === 'perYear') {
+            // ここでServiceのAnalysisServiceのperYearメソッドを呼び出し、返ってきたデータを$data、$labels、$totalsに格納する
+            list($data, $labels, $totals) = AnalysisService::perYear($subQuery);
+        }
+
+        if ($request->type === 'decile') {
+            // ここでServiceのAnalysisServiceのperYearメソッドを呼び出し、返ってきたデータを$data、$labels、$totalsに格納する
+            list($data, $labels, $totals) = DecileService::decile($subQuery);
         }
         // Ajax通信なので、JSON形式でレスポンスを返す
         return response()->json(
