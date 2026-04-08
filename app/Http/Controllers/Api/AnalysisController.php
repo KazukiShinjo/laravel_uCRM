@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Service\AnalysisService;
 use App\Service\DecileService;
+use App\Service\RFMService;
 
 class AnalysisController extends Controller
 {
@@ -34,6 +35,22 @@ class AnalysisController extends Controller
         if ($request->type === 'decile') {
             // ここでServiceのAnalysisServiceのperYearメソッドを呼び出し、返ってきたデータを$data、$labels、$totalsに格納する
             list($data, $labels, $totals) = DecileService::decile($subQuery);
+        }
+
+        if ($request->type === 'rfm') {
+            // ここでServiceのRFMServiceのrfmメソッドを呼び出し、返ってきたデータを$data、$labels、$totalsに格納する
+            list($data, $totals, $eachCount) = RFMService::rfm($subQuery, $request->rfmPrms);
+
+            // Ajax通信なので、JSON形式でレスポンスを返す
+            return response()->json(
+                [
+                    'data' => $data,
+                    'type' => $request->type,
+                    'eachCount' => $eachCount,
+                    'totals' => $totals
+                ],
+                Response::HTTP_OK
+            );
         }
         // Ajax通信なので、JSON形式でレスポンスを返す
         return response()->json(
